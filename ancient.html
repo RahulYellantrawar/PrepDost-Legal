@@ -3,315 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>భారతదేశపు దేవాలయ రహస్యాలు - ఇంటరాక్టివ్ యాప్</title>
+    <title>భారతదేశపు దేవాలయ రహస్యాలు - ఇన్ఫోగ్రాఫిక్</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Earthly Neutrals (Sand, Terracotta, Slate Gray) -->
-    <!-- Application Structure Plan: The SPA uses a non-linear, user-driven structure. A main hero section introduces the topic, followed by four interactive navigation cards. Each card scrolls the user to a dedicated section for a temple (Kailasa, Brihadeeswarar, Konark, Vittala). This hub-and-spoke model is chosen over a linear format to empower users to explore based on their interest, enhancing engagement. Each temple section uses a mix of text, custom HTML/CSS diagrams, and a Chart.js visualization to explain its core mystery. A final summary chart compares all temples, allowing for synthesis of the information. This structure prioritizes user agency and interactive learning over passive reading. -->
+    <!-- Chosen Palette: Cosmic Indigo & Gold (#0A2463, #3E92CC, #F5D491, #D8315B, #2E2E3A) -->
+    <!-- Application Structure Plan: A linear, narrative-driven, single-page infographic. The structure follows the source material's flow: an introduction, followed by dedicated sections for each of the four temples, and a concluding comparative summary. This sequential design tells a cohesive story, guiding the user from one marvel to the next. Each section uses a combination of large-type statistics (Big Numbers), explanatory text, and a primary visualization (custom diagram or Chart.js chart) to break down complex information into digestible visual chunks. This approach is ideal for an infographic format, prioritizing clarity and visual impact. -->
     <!-- Visualization & Content Choices: 
-        - Kailasa Temple: Goal: Explain monolithic carving. Method: HTML/CSS diagram showing vertical excavation. Interaction: Hover to see data. Justification: Visually simplifies a complex architectural process.
-        - Brihadeeswarar Temple: Goal: Show logistical scale. Method: Chart.js Bar Chart for weights and distances. Interaction: Tooltips on bars. Justification: Quantifies the immense engineering feat effectively.
-        - Konark Sun Temple: Goal: Contrast legend and science. Method: HTML/CSS diagram with a JS-powered toggle. Interaction: Button to switch between "Legend" and "Reality". Justification: Interactively presents two sides of a story.
-        - Vittala Temple: Goal: Simulate musical pillars. Method: Grid of clickable HTML elements. Interaction: Click to "play" a note (visual feedback). Justification: Provides a safe, non-auditory interactive experience of the core phenomenon.
-        - Summary: Goal: Compare all temples. Method: Chart.js Radar Chart. Interaction: Tooltips. Justification: Offers a high-level comparative overview of different aspects (Age, Scale, Mystery).
+        - Kailasa Temple: Goal: Inform. Viz: HTML/CSS diagram of vertical excavation & a "Big Number" for rock removed. Justification: A process diagram is clearer than a chart for showing a physical technique.
+        - Brihadeeswarar Temple: Goal: Compare. Viz: Chart.js Horizontal Bar Chart. Justification: Effectively compares the immense logistical numbers (granite tonnage, capstone weight, ramp length).
+        - Konark Sun Temple: Goal: Inform/Organize. Viz: HTML/CSS diagram of the levitating idol legend. Justification: A visual representation of a legend is more engaging and memorable.
+        - Vittala Temple: Goal: Inform. Viz: Chart.js Donut Chart. Justification: Conceptually represents the "symphony" of musical notes from the 56 pillars in a visually appealing way.
+        - Summary: Goal: Compare/Relationships. Viz: Chart.js Radar Chart. Justification: Provides a powerful, at-a-glance comparison of the four temples across multiple attributes (Scale, Age, Complexity, Mystery).
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Noto Sans Telugu', sans-serif;
-            background-color: #FDF6E3; /* Warm Sand */
+            background-color: #F8F9FA;
         }
-        .bg-terracotta { background-color: #E2725B; }
-        .text-terracotta { color: #E2725B; }
-        .border-terracotta { border-color: #E2725B; }
-        .bg-slate { background-color: #4A4A4A; }
-        .text-slate { color: #333333; }
+        .bg-indigo-dark { background-color: #0A2463; }
+        .text-indigo-dark { color: #0A2463; }
+        .bg-blue-mid { background-color: #3E92CC; }
+        .text-blue-mid { color: #3E92CC; }
+        .bg-gold-light { background-color: #F5D491; }
+        .text-gold-light { color: #F5D491; }
+        .bg-ruby-red { background-color: #D8315B; }
+        .text-ruby-red { color: #D8315B; }
+        .bg-charcoal { background-color: #2E2E3A; }
+        .text-charcoal { color: #2E2E3A; }
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             margin-left: auto;
             margin-right: auto;
-            height: 350px;
-            max-height: 450px;
+            height: 300px;
+            max-height: 400px;
         }
         @media (min-width: 768px) {
             .chart-container {
-                height: 400px;
+                height: 350px;
             }
-        }
-        .pillar.active {
-            background-color: #E2725B !important;
-            transform: scale(1.1);
-            transition: transform 0.2s ease-in-out;
         }
     </style>
 </head>
-<body class="text-slate">
+<body class="text-charcoal">
 
-    <header class="text-center p-8 md:p-12 bg-terracotta text-white">
-        <h1 class="text-4xl md:text-6xl font-bold mb-2">రాళ్లలో దాగి ఉన్న రహస్య గాథలు</h1>
-        <p class="text-lg md:text-xl max-w-3xl mx-auto">భారతదేశపు పురాతన దేవాలయాల నిర్మాణ, వైజ్ఞానిక, మరియు చారిత్రక రహస్యాలను అన్వేషించండి.</p>
+    <header class="text-center p-8 md:p-16 bg-indigo-dark text-white">
+        <h1 class="text-4xl md:text-6xl font-bold mb-2 text-gold-light">రాళ్లలో దాగి ఉన్న రహస్య గాథలు</h1>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto mt-4">భారతదేశపు పురాతన దేవాలయాల నిర్మాణ, వైజ్ఞానిక, మరియు చారిత్రక రహస్యాల దృశ్య ప్రయాణం.</p>
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        <section id="navigation" class="my-8">
-            <h2 class="text-3xl font-bold text-center mb-8 text-terracotta">ఒక రహస్యాన్ని ఎంచుకోండి</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="nav-card bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer" data-target="kailasa">
-                    <h3 class="text-2xl font-bold mb-2 text-slate">కైలాస దేవాలయం</h3>
-                    <p class="text-slate">ఒకే పర్వతాన్ని తొలిచి నిర్మించిన అద్భుతం.</p>
-                </div>
-                <div class="nav-card bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer" data-target="brihadeeswarar">
-                    <h3 class="text-2xl font-bold mb-2 text-slate">బృహదీశ్వరాలయం</h3>
-                    <p class="text-slate">గురుత్వాకర్షణను జయించిన గోపురం.</p>
-                </div>
-                <div class="nav-card bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer" data-target="konark">
-                    <h3 class="text-2xl font-bold mb-2 text-slate">కోణార్క్ సూర్య దేవాలయం</h3>
-                    <p class="text-slate">అయస్కాంత శక్తి మరియు ఖగోళ శాస్త్రం.</p>
-                </div>
-                <div class="nav-card bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer" data-target="vittala">
-                    <h3 class="text-2xl font-bold mb-2 text-slate">విఠల దేవాలయం</h3>
-                    <p class="text-slate">సంగీతాన్ని పలికే రాతి స్తంభాలు.</p>
-                </div>
-            </div>
-        </section>
 
-        <div class="space-y-16">
-            <section id="kailasa" class="pt-16">
-                <h2 class="text-4xl font-bold text-terracotta mb-4">కైలాస దేవాలయం, ఎల్లోరా</h2>
-                <p class="mb-8 text-lg">ఈ ఆలయం ఇటుకలతో నిర్మించబడలేదు, ఒకే ఒక భారీ పర్వతాన్ని పై నుండి క్రిందికి తొలిచి ఆవిష్కరించబడింది. ఇది నిర్మాణం కాదు, ఒక ఆవిష్కరణ. ఈ విభాగం రాష్ట్రకూటుల అసాధారణ ఇంజనీరింగ్ పద్ధతిని మరియు దాని వెనుక ఉన్న రాజకీయ, తాత్విక ప్రేరణలను విశ్లేషిస్తుంది.</p>
+        <section id="kailasa" class="my-12">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-xl border-l-8 border-blue-mid">
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-dark mb-4">కైలాస దేవాలయం: పర్వత శిల్పం</h2>
+                <p class="text-lg mb-6">ఈ ఆలయం నిర్మించబడలేదు, ఒకే పర్వతాన్ని పై నుండి క్రిందికి తొలిచి ఆవిష్కరించబడింది. ఇది మానవ సంకల్పానికి, ఇంజనీరింగ్ ప్రతిభకు నిలువుటద్దం.</p>
                 <div class="grid md:grid-cols-2 gap-8 items-center">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-2">నిలువు తవ్వకం (Vertical Excavation)</h3>
-                        <p>సాధారణంగా కట్టడాలను పునాది నుండి పైకి నిర్మిస్తారు. కానీ కైలాస ఆలయ శిల్పులు దీనికి విరుద్ధంగా పర్వతం పైభాగాన్ని చెక్కడం మొదలుపెట్టి, క్రిందికి తొలిచారు. ఈ పద్ధతిలో పొరపాట్లకు ఆస్కారమే లేదు. అంచనాల ప్రకారం, సుమారు 4 లక్షల టన్నుల రాయిని తొలగించారు, అది కూడా కేవలం 18 సంవత్సరాలలో పూర్తి చేశారని చారిత్రక కథనం.</p>
-                        <div class="mt-4 p-4 bg-terracotta/10 rounded-lg">
-                            <h4 class="font-bold">ఒక్క మాటలో</h4>
-                            <p><span class="font-bold">రాజవంశం:</span> రాష్ట్రకూట (8వ శతాబ్దం)</p>
-                            <p><span class="font-bold">ప్రధాన ఘనత:</span> ప్రపంచంలోనే అతిపెద్ద ఏకశిలా నిర్మాణం.</p>
-                        </div>
+                    <div class="text-center p-6 bg-blue-mid/10 rounded-lg">
+                        <div class="text-6xl md:text-8xl font-bold text-blue-mid">400,000</div>
+                        <div class="text-xl font-bold text-charcoal mt-2">టన్నుల రాయి తొలగింపు</div>
+                        <p class="mt-4">ఈ అసాధారణ కార్యాన్ని కేవలం 18 సంవత్సరాలలో పూర్తి చేశారని చారిత్రక కథనం.</p>
                     </div>
-                    <div class="p-4 flex justify-center items-center">
-                        <div class="w-full max-w-sm h-64 bg-gray-300 rounded-lg p-4 relative" title="4 లక్షల టన్నుల రాయి తొలగించబడింది">
-                            <div class="absolute top-0 left-0 right-0 h-16 bg-gray-300"></div>
-                            <div class="absolute top-16 left-8 right-8 bottom-0 bg-white border-4 border-dashed border-gray-400 flex justify-center items-center">
-                                <div class="w-3/4 h-3/4 bg-terracotta/50 rounded-md text-center flex flex-col justify-center text-white p-2">
-                                    <span class="text-4xl font-bold">▼</span>
-                                    <span class="font-bold">పై నుండి క్రిందికి</span>
+                    <div class="p-4 flex flex-col justify-center items-center">
+                         <h3 class="text-xl font-bold mb-2 text-center">నిలువు తవ్వకం పద్ధతి</h3>
+                         <div class="w-full max-w-xs h-64 bg-gray-200 rounded-lg p-4 relative" title="పై నుండి క్రిందికి చెక్కబడింది">
+                            <div class="absolute top-0 left-0 right-0 h-12 bg-gray-200"></div>
+                            <div class="absolute top-12 left-8 right-8 bottom-0 bg-white border-4 border-dashed border-blue-mid flex justify-center items-center">
+                                <div class="w-2/3 h-2/3 bg-blue-mid/80 rounded-md text-center flex flex-col justify-center text-white p-2">
+                                    <span class="text-5xl font-bold">▼</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="brihadeeswarar" class="pt-16">
-                <h2 class="text-4xl font-bold text-terracotta mb-4">బృహదీశ్వరాలయం, తంజావూరు</h2>
-                <p class="mb-8 text-lg">చోళుల శక్తికి, పరిపాలనా దక్షతకు ప్రతీక ఈ ఆలయం. ఇక్కడి రహస్యం అతీంద్రియ శక్తులది కాదు, అసాధ్యమనిపించే లాజిస్టికల్ సవాళ్లను మానవ మేధస్సుతో ఎలా అధిగమించారనేది. ఈ విభాగంలో, మనం భారీ గ్రానైట్ రవాణా, 80 టన్నుల శిఖర స్థాపన, మరియు నీడ పడని గోపురం వెనుక ఉన్న ఇంజనీరింగ్ అద్భుతాలను చూద్దాం.</p>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-bold mb-4 text-center">నిర్మాణపు సంఖ్యా బలం</h3>
-                     <div class="chart-container">
+        <section id="brihadeeswarar" class="my-12">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-xl border-l-8 border-ruby-red">
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-dark mb-4">బృహదీశ్వరాలయం: గురుత్వాకర్షణపై విజయం</h2>
+                <p class="text-lg mb-6">ఆధునిక యంత్రాలు లేకుండా, చోళులు అసాధ్యమనిపించే లాజిస్టికల్ మరియు ఇంజనీరింగ్ సమస్యలను ఎలా పరిష్కరించారో ఈ ఆలయం చూపిస్తుంది.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="chart-container">
                         <canvas id="brihadeeswararChart"></canvas>
                     </div>
-                </div>
-            </section>
-
-            <section id="konark" class="pt-16">
-                <h2 class="text-4xl font-bold text-terracotta mb-4">కోణార్క్ సూర్య దేవాలయం, ఒడిశా</h2>
-                <p class="mb-8 text-lg">ఇది కేవలం ఒక ఆలయం కాదు, సూర్య భగవానుడి కోసం నిర్మించిన ఒక భారీ రాతి రథం మరియు ఒక కచ్చితమైన ఖగోళ గడియారం. ఇక్కడ శాస్త్రం, పురాణం పెనవేసుకుపోయాయి. గాలిలో తేలియాడే విగ్రహం యొక్క గాథ మరియు దాని వెనుక ఉన్న అయస్కాంత శక్తి యొక్క రహస్యం ఎంతవరకు నిజమో ఇక్కడ అన్వేషిద్దాం.</p>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <div class="text-center mb-4">
-                        <button id="konarkToggleBtn" class="bg-terracotta text-white px-6 py-2 rounded-full font-bold">పురాణ గాథను చూపించు</button>
-                    </div>
-                    <div id="konarkLegend" class="hidden">
-                        <h3 class="text-2xl font-bold mb-2 text-center">తేలియాడే విగ్రహం (పురాణం)</h3>
-                        <p class="text-center mb-4">ఆలయ శిఖరంపై ఉన్న 52 టన్నుల లోడ్‌స్టోన్, మరియు ఇతర అయస్కాంతాలు కలిసి సూర్యుడి విగ్రహాన్ని గాలిలో తేలియాడేలా చేసేవని నమ్మకం.</p>
-                        <div class="w-full h-64 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center p-4">
-                            <div class="bg-slate text-white px-4 py-1 rounded-md">52 టన్నుల అయస్కాంతం</div>
-                            <div class="flex-grow w-full flex justify-center items-center text-5xl text-terracotta">☀️</div>
-                            <div class="bg-gray-200 w-full p-2 rounded-md text-center">ఆలయ పీఠం</div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-ruby-red/10 rounded-lg">
+                            <h3 class="font-bold text-ruby-red text-xl">80 టన్నుల శిఖరం</h3>
+                            <p>ఒకే గ్రానైట్ శిలను 216 అడుగుల ఎత్తుకు ఎత్తారు.</p>
                         </div>
-                    </div>
-                    <div id="konarkReality">
-                        <h3 class="text-2xl font-bold mb-2 text-center">చారిత్రక వాస్తవికత</h3>
-                        <p class="text-center mb-4">అయస్కాంతం ఉనికికి పురావస్తు ఆధారాలు లేవు. ఆలయ నిర్మాణంలో ఇనుప దూలాలను వాడారు, ఇదే బహుశా పురాణానికి ప్రేరణ కావచ్చు. విదేశీ దండయాత్రల వల్ల ఆలయం ధ్వంసమైందని చారిత్రక ఆధారాలు సూచిస్తున్నాయి.</p>
-                         <div class="w-full h-64 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center p-4">
-                            <div class="bg-gray-200 px-4 py-1 rounded-md">శిథిలమైన గోపురం</div>
-                            <div class="flex-grow w-full flex justify-center items-center text-5xl text-slate">🏛️</div>
-                            <div class="bg-gray-200 w-full p-2 rounded-md text-center">ఇనుప దూలాల వాడకం</div>
+                        <div class="p-4 bg-ruby-red/10 rounded-lg">
+                            <h3 class="font-bold text-ruby-red text-xl">130,000 టన్నుల గ్రానైట్</h3>
+                            <p>60 కిలోమీటర్ల దూరం నుండి రవాణా చేయబడింది.</p>
+                        </div>
+                        <div class="p-4 bg-ruby-red/10 rounded-lg">
+                            <h3 class="font-bold text-ruby-red text-xl">6 కిలోమీటర్ల ర్యాంప్</h3>
+                            <p>శిఖరాన్ని పైకి చేర్చడానికి నిర్మించిన తాత్కాలిక వాలు.</p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="vittala" class="pt-16">
-                <h2 class="text-4xl font-bold text-terracotta mb-4">విఠల దేవాలయం, హంపి</h2>
-                <p class="mb-8 text-lg">విజయనగర సామ్రాజ్యపు కళాత్మకతకు, ధ్వని శాస్త్రంలో వారికున్న పట్టుకు ఈ ఆలయం ఒక నిలువుటద్దం. ఇక్కడి రంగ మండపంలోని 56 రాతి స్తంభాలు, సున్నితంగా తట్టినప్పుడు స్పష్టమైన సంగీత స్వరాలను ఎలా పలుకుతాయో తెలుసుకుందాం. ఈ అద్భుతం వెనుక ఉన్న కోల్పోయిన సాంకేతికత ఏమిటి?</p>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-bold mb-4 text-center">స-రి-గ-మ స్తంభాలు</h3>
-                    <p class="text-center mb-4">స్తంభాన్ని తాకి, సంగీతాన్ని "వినండి" (ఈ స్తంభాలను ఇప్పుడు తాకడం నిషేధించబడింది).</p>
-                    <div id="musicalPillars" class="grid grid-cols-7 gap-2 md:gap-4 max-w-md mx-auto">
+        <section id="konark" class="my-12">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-xl border-l-8 border-gold-light">
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-dark mb-4">కోణార్క్: విశ్వ రథం</h2>
+                <p class="text-lg mb-6">ఇది కేవలం ఒక ఆలయం కాదు, సూర్య భగవానుడి కోసం నిర్మించిన ఒక భారీ రాతి రథం మరియు ఒక కచ్చితమైన ఖగోళ గడియారం.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center p-6 bg-gold-light/20 rounded-lg">
+                        <div class="text-6xl md:text-8xl font-bold text-indigo-dark">52</div>
+                        <div class="text-xl font-bold text-charcoal mt-2">టన్నుల అయస్కాంతం</div>
+                        <p class="mt-4">ఆలయ శిఖరంపై ఉండి, విగ్రహాన్ని గాలిలో తేలియాడేలా చేసిందని పురాణ గాథ.</p>
                     </div>
-                    <div id="noteDisplay" class="mt-4 text-center text-3xl font-bold text-terracotta h-10"></div>
+                    <div class="p-4 flex flex-col justify-center items-center">
+                        <h3 class="text-xl font-bold mb-2 text-center">తేలియాడే విగ్రహం (గాథ)</h3>
+                        <div class="w-full max-w-xs h-64 border-2 border-dashed border-gold-light rounded-lg flex flex-col items-center justify-between p-4 bg-white">
+                            <div class="text-charcoal text-lg">🧲 ప్రధాన అయస్కాంతం</div>
+                            <div class="text-7xl">☀️</div>
+                            <div class="text-charcoal text-lg">🏛️ ఆలయ పీఠం</div>
+                        </div>
+                    </div>
                 </div>
-            </section>
-            
-            <section id="summary" class="pt-16">
-                 <h2 class="text-4xl font-bold text-terracotta mb-4 text-center">నిర్మాణ అద్భుతాల తులనాత్మక విశ్లేషణ</h2>
-                 <p class="mb-8 text-lg text-center max-w-3xl mx-auto">ఈ దేవాలయాలు వేర్వేరు కాలాలకు, సామ్రాజ్యాలకు చెందినవి అయినప్పటికీ, వాటి నిర్మాణంలో కొన్ని ఉమ్మడి లక్షణాలు కనిపిస్తాయి. అవి అపారమైన మానవ ప్రతిభ, లోతైన శాస్త్రీయ అవగాహన, మరియు తరతరాలకు విస్మయాన్ని కలిగించాలనే తపన. ఈ చార్ట్ వాటి స్థాయి, కాలం, మరియు రహస్యం యొక్క తీవ్రతను పోలుస్తుంది.</p>
-                 <div class="bg-white p-6 rounded-lg shadow-lg">
+            </div>
+        </section>
+
+        <section id="vittala" class="my-12">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-xl border-l-8 border-blue-mid">
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-dark mb-4">విఠల దేవాలయం: రాతిలో సంగీతం</h2>
+                <p class="text-lg mb-6">విజయనగర సామ్రాజ్యపు కళాత్మకతకు, ధ్వని శాస్త్రంలో వారికున్న పట్టుకు ఈ ఆలయం ఒక నిలువుటద్దం.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
                      <div class="chart-container">
-                        <canvas id="summaryChart"></canvas>
+                        <canvas id="vittalaChart"></canvas>
                     </div>
-                 </div>
-            </section>
+                    <div class="text-center p-6 bg-blue-mid/10 rounded-lg">
+                        <div class="text-6xl md:text-8xl font-bold text-blue-mid">56</div>
+                        <div class="text-xl font-bold text-charcoal mt-2">సంగీత స్తంభాలు</div>
+                        <p class="mt-4">ప్రతి స్తంభం, సున్నితంగా తట్టినప్పుడు ఒక స్పష్టమైన సంగీత స్వరాన్ని పలుకుతుంది.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        </div>
+        <section id="summary" class="my-12">
+            <div class="bg-charcoal text-white p-6 md:p-8 rounded-lg shadow-xl">
+                <h2 class="text-3xl md:text-4xl font-bold text-gold-light mb-4 text-center">నిర్మాణ అద్భుతాల తులనాత్మక విశ్లేషణ</h2>
+                <p class="text-lg mb-6 text-center max-w-3xl mx-auto">ఈ దేవాలయాలు వేర్వేరు కాలాలకు చెందినవి అయినప్పటికీ, వాటి నిర్మాణంలో అపారమైన మానవ ప్రతిభ, లోతైన శాస్త్రీయ అవగాహన కనిపిస్తాయి. ఈ చార్ట్ వాటి స్థాయి, కాలం, మరియు రహస్యం యొక్క తీవ్రతను పోలుస్తుంది.</p>
+                <div class="chart-container h-[400px] md:h-[450px]">
+                   <canvas id="summaryChart"></canvas>
+               </div>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="bg-slate text-white text-center p-4 mt-16">
+    <footer class="bg-indigo-dark text-white text-center p-4 mt-16">
         <p>&copy; 2025 భారతదేశపు దేవాలయ రహస్యాలు. విజ్ఞానం మరియు విస్మయం కోసం రూపొందించబడింది.</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const navCards = document.querySelectorAll('.nav-card');
-            navCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const targetId = card.getAttribute('data-target');
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const chartJsConfig = {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#2E2E3A',
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                }
+                                return label;
+                            }
+                        }
                     }
-                });
-            });
+                }
+            };
 
             const brihadeeswararCtx = document.getElementById('brihadeeswararChart').getContext('2d');
             new Chart(brihadeeswararCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['గ్రానైట్ వాడకం (టన్నులు)', 'శిఖరం బరువు (టన్నులు)', 'ర్యాంప్ పొడవు (కి.మీ)'],
+                    labels: ['గ్రానైట్ (టన్నులు)', 'శిఖరం (టన్నులు)', 'ర్యాంప్ (కి.మీ)'],
                     datasets: [{
                         label: 'పరిమాణం',
                         data: [130000, 80, 6],
-                        backgroundColor: [
-                            'rgba(226, 114, 91, 0.6)',
-                            'rgba(74, 74, 74, 0.6)',
-                            'rgba(253, 246, 227, 0.8)'
-                        ],
-                        borderColor: [
-                            '#E2725B',
-                            '#4A4A4A',
-                            '#BDB7A9'
-                        ],
-                        borderWidth: 1
+                        backgroundColor: ['#D8315B99', '#0A246399', '#3E92CC99'],
+                        borderColor: ['#D8315B', '#0A2463', '#3E92CC'],
+                        borderWidth: 2
                     }]
                 },
-                options: {
+                options: { ...chartJsConfig,
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.x !== null) {
-                                        label += new Intl.NumberFormat('en-IN').format(context.parsed.x);
-                                        if(context.label.includes('టన్నులు')) label += ' టన్నులు';
-                                        if(context.label.includes('కి.మీ')) label += ' కి.మీ';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
+                    plugins: { ...chartJsConfig.plugins, legend: { display: false } },
                     scales: {
-                        x: {
-                            type: 'logarithmic',
-                            ticks: {
-                                color: '#4A4A4A'
-                            },
-                            grid: {
-                                color: '#dddddd'
-                            }
-                        },
-                        y: {
-                           ticks: {
-                                color: '#4A4A4A',
-                                font: {
-                                    size: 14
-                                }
-                            },
-                            grid: {
-                                display: false
-                            }
-                        }
+                        x: { type: 'logarithmic', grid: { color: '#e0e0e0' }, ticks: { color: '#2E2E3A'} },
+                        y: { grid: { display: false }, ticks: { color: '#2E2E3A'} }
                     }
                 }
             });
 
-            const konarkToggleBtn = document.getElementById('konarkToggleBtn');
-            const konarkLegend = document.getElementById('konarkLegend');
-            const konarkReality = document.getElementById('konarkReality');
-            konarkToggleBtn.addEventListener('click', () => {
-                const isRealityVisible = !konarkReality.classList.contains('hidden');
-                if (isRealityVisible) {
-                    konarkReality.classList.add('hidden');
-                    konarkLegend.classList.remove('hidden');
-                    konarkToggleBtn.textContent = 'చారిత్రక వాస్తవాన్ని చూపించు';
-                } else {
-                    konarkReality.classList.remove('hidden');
-                    konarkLegend.classList.add('hidden');
-                    konarkToggleBtn.textContent = 'పురాణ గాథను చూపించు';
+            const vittalaCtx = document.getElementById('vittalaChart').getContext('2d');
+            new Chart(vittalaCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['స', 'రి', 'గ', 'మ', 'ప', 'ద', 'ని'],
+                    datasets: [{
+                        label: 'సంగీత స్వరాలు',
+                        data: [8, 8, 8, 8, 8, 8, 8],
+                        backgroundColor: ['#0A2463', '#3E92CC', '#F5D491', '#D8315B', '#6a4c93', '#ffc107', '#1982c4'],
+                        borderColor: '#ffffff',
+                        borderWidth: 3
+                    }]
+                },
+                options: { ...chartJsConfig,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { ...chartJsConfig.plugins, legend: { position: 'top' } }
                 }
             });
 
-            const musicalPillarsContainer = document.getElementById('musicalPillars');
-            const noteDisplay = document.getElementById('noteDisplay');
-            const notes = ['స', 'రి', 'గ', 'మ', 'ప', 'ద', 'ని'];
-            for (let i = 0; i < 56; i++) {
-                const pillar = document.createElement('div');
-                pillar.classList.add('pillar', 'w-8', 'h-16', 'md:w-12', 'md:h-24', 'bg-gray-300', 'rounded-t-md', 'rounded-b-sm', 'cursor-pointer', 'transition-all', 'duration-200');
-                pillar.dataset.note = notes[i % notes.length];
-                pillar.addEventListener('click', () => {
-                    const activePillar = document.querySelector('.pillar.active');
-                    if(activePillar) {
-                        activePillar.classList.remove('active');
-                    }
-                    pillar.classList.add('active');
-                    noteDisplay.textContent = pillar.dataset.note;
-                    setTimeout(() => {
-                        pillar.classList.remove('active');
-                        noteDisplay.textContent = '';
-                    }, 1000);
-                });
-                musicalPillarsContainer.appendChild(pillar);
-            }
-            
             const summaryCtx = document.getElementById('summaryChart').getContext('2d');
             new Chart(summaryCtx, {
                 type: 'radar',
                 data: {
-                    labels: ['నిర్మాణ స్థాయి', 'కాలం (ప్రాచీనత)', 'ఇంజనీరింగ్ సంక్లిష్టత', 'రహస్యం/పురాణం'],
+                    labels: ['నిర్మాణ స్థాయి', 'ప్రాచీనత', 'ఇంజనీరింగ్ సంక్లిష్టత', 'రహస్యం/పురాణం'],
                     datasets: [
-                        {
-                            label: 'కైలాస',
-                            data: [9, 9, 10, 8],
-                            fill: true,
-                            backgroundColor: 'rgba(226, 114, 91, 0.2)',
-                            borderColor: 'rgb(226, 114, 91)',
-                            pointBackgroundColor: 'rgb(226, 114, 91)',
-                        },
-                        {
-                            label: 'బృహదీశ్వరాలయం',
-       
+                        { label: 'కైలాస', data: [9, 9, 10, 8], fill: true, backgroundColor: 'rgba(62, 146, 204, 0.2)', borderColor: 'rgb(62, 146, 204)', pointBackgroundColor: 'rgb(62, 146, 204)'},
+                        { label: 'బృహదీశ్వరాలయం', data: [10, 7, 9, 7], fill: true, backgroundColor: 'rgba(216, 49, 91, 0.2)', borderColor: 'rgb(216, 49, 91)', pointBackgroundColor: 'rgb(216, 49, 91)'},
+                        { label: 'కోణార్క్', data: [8, 6, 8, 10], fill: true, backgroundColor: 'rgba(245, 212, 145, 0.2)', borderColor: 'rgb(245, 212, 145)', pointBackgroundColor: 'rgb(245, 212, 145)'},
+                        { label: 'విఠల', data: [6, 4, 7, 9], fill: true, backgroundColor: 'rgba(10, 36, 99, 0.2)', borderColor: 'rgb(10, 36, 99)', pointBackgroundColor: 'rgb(10, 36, 99)'}
+                    ]
+                },
+                options: { ...chartJsConfig,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { ...chartJsConfig.plugins, legend: { labels: { color: '#FFFFFF' } } },
+                    scales: {
+                        r: {
+                            angleLines: { color: '#FFFFFF44' },
+                            grid: { color: '#FFFFFF44' },
+                            pointLabels: { font: { size: 14 }, color: '#F5D491' },
+                            ticks: { backdropColor: '#2E2E3A', color: '#FFFFFF' }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
